@@ -1,8 +1,10 @@
 package br.com.guilhermesantos.salutar.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "tbl_fichapaciente")
@@ -12,6 +14,7 @@ public class FichaPaciente {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_ficha")
+    @JsonIgnoreProperties("midias")
     private Integer idFicha;
 
     @Column(name = "nome", length = 100, nullable = false)
@@ -70,6 +73,10 @@ public class FichaPaciente {
 
     @Column(name = "ativo")
     private Integer ativo;
+
+    @OneToMany(mappedBy = "ficha", cascade = CascadeType.ALL)
+    @JsonIgnoreProperties("ficha")
+    private List<Midia> midias;
 
     @Column(name = "link_foto", length = 255)
     private String linkFoto;
@@ -240,5 +247,13 @@ public class FichaPaciente {
 
     public void setAtivo(Integer ativo) {
         this.ativo = ativo;
+    }
+
+    public List<Midia> getMidias() {
+        return midias;
+    }
+
+    public void setMidias(List<Midia> midias) {
+        this.midias = midias;
     }
 }
