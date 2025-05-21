@@ -1,9 +1,5 @@
 package br.com.guilhermesantos.salutar.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -14,6 +10,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import java.io.IOException;
 
+@Deprecated(since = "6.1", forRemoval = true)
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -27,12 +24,8 @@ public class WebSecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/login").permitAll()
                 .anyRequest().authenticated().and().cors();
 
-        http.addFilterBefore(new MyFilter() {
-            @Override
-            protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-            }
-        }, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(new MyFilter(), UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

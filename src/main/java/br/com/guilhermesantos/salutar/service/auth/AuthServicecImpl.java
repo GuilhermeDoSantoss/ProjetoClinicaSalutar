@@ -3,6 +3,7 @@ package br.com.guilhermesantos.salutar.service.auth;
 import br.com.guilhermesantos.salutar.dao.UsuarioDAO;
 import br.com.guilhermesantos.salutar.model.Usuario;
 import br.com.guilhermesantos.salutar.security.SalutarToken;
+import br.com.guilhermesantos.salutar.security.TokenUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -30,7 +31,7 @@ public class AuthServicecImpl implements IAuthService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         if (res != null){
             if(encoder.matches(dadosLogin.getSenha(), res.getSenha())){
-                return new SalutarToken("minhasenha123");
+                return TokenUtil.encode(res);
             }
         }
         return null;
